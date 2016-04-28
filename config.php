@@ -168,15 +168,15 @@ class MozillaSearchAdapter extends SearchAdapter {
     "ldap_sort_order" => "sn"
   );
 
-  public function search_users($search, $exact=false) {
+  public function search_users($search, $exact=false, $sizeLimit=0) {
     if ($search != "random") {
-      return $this->_search_users($search, $exact=$exact);
+      return $this->_search_users($search, $exact=$exact, $sizeLimit);
     }
-    $entries = $this->_search_users('*');
+    $entries = $this->_search_users('*', $sizeLimit);
     return array($entries[mt_rand(0, count($entries) - 1)]);
   }
 
-  public function _search_users($search, $exact=false) {
+  public function _search_users($search, $exact=false, $sizeLimit=0) {
     if($exact == false){
       if ($search == '*') {
         $filter = 'objectClass=mozComPerson';
@@ -196,7 +196,7 @@ class MozillaSearchAdapter extends SearchAdapter {
       $escaped = escape_ldap_filter_value($search);
       $filter = "(mail=$escaped)";
     }
-    return $this->query_users($filter, 'dc=mozilla', $this->fields);
+    return $this->query_users($filter, 'dc=mozilla', $this->fields, $sizeLimit);
   }
 
   public function preprocess_entry(&$entry) {

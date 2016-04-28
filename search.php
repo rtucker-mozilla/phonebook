@@ -7,7 +7,8 @@ $auth = new MozillaAuthAdapter();
 $search = new MozillaSearchAdapter($ldapconn);
 $keyword = isset($_GET["query"]) ? $_GET["query"] : '*';
 $exact = isset($_GET["exact_search"]) ? true : false;
-$entries = normalize($search->search_users($keyword, $exact=$exact));
+$sizeLimit = isset($_GET["limit"]) ? $_GET["limit"] : 50;
+$entries = normalize($search->search_users($keyword, $exact=$exact, $sizeLimit=$sizeLimit));
 $attr_preps = get_attr_preprocessors();
 
 $preprocess_attr_functions = array();

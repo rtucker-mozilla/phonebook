@@ -77,9 +77,9 @@ abstract class SearchAdapter {
    * an array field called $fields. Sorts resulting entries by surname by 
    * default, unless $conf["ldap_sort_order"] exists.
    */
-  public function query_users($filter, $base='', $attributes=NULL) {
+  public function query_users($filter, $base='', $attributes=NULL, $sizeLimit=0) {
     $attributes = $attributes ? $attributes : $this->fields;
-    $search = ldap_search($this->ldapconn, $base, $filter, $attributes);
+    $search = ldap_search($this->ldapconn, $base, $filter, $attributes, 0, $sizeLimit);
     ldap_sort($this->ldapconn, $search,
       $this->conf["ldap_sort_order"] ? $this->conf["ldap_sort_order"] : "sn"
     );
