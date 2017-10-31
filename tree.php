@@ -31,6 +31,10 @@ foreach ($tree->conf as $conf) {
 $tree_view_roots = $tree->roots;
 foreach ($data as $person) {
   $mail = $person['mail'][0];
+  // check if the mail address is in exclusions and continue past
+  if(isset($tree_exclusions) && in_array($mail, $tree_exclusions)){
+    continue;
+  }
   $everyone[$mail] = $tree->process_entry($person);
 
   // If a user has a manager, try to find their place in the tree.
